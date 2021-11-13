@@ -4,6 +4,15 @@ OP_PUSH,
 OP_DUMP,
 OP_PLUS,
 OP_MINUS,
+OP_DUP,
+//bool operations
+OP_GREATER,
+OP_GREATEQ,
+OP_LESS,
+OP_LESSEQ,
+OP_EQ,
+OP_NEQ,
+
 COUNT_OPS
 };
 
@@ -30,4 +39,26 @@ Cont plus(){
 }
 Cont minus(){
     return {OP_MINUS,0};
+}
+Cont dup(){
+    return {OP_DUP,0};
+}
+
+Cont greater(){
+    return {OP_GREATER,0};
+}
+Cont greateq(){
+    return {OP_GREATEQ,0};
+}
+Cont less(){
+    return {OP_LESS,0};
+}
+Cont lesseq(){
+    return {OP_LESSEQ,0};
+}
+Cont eq(){
+    return {OP_EQ,0};
+}
+Cont neq(){
+    return {OP_NEQ,0};
 }
