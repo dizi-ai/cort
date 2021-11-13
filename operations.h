@@ -1,64 +1,120 @@
+#pragma once
 
-enum Operations{
-OP_PUSH,
-OP_DUMP,
-OP_PLUS,
-OP_MINUS,
-OP_DUP,
-//bool operations
-OP_GREATER,
-OP_GREATEQ,
-OP_LESS,
-OP_LESSEQ,
-OP_EQ,
-OP_NEQ,
+#include <stack>
+#include <cassert>
+#include <iostream>
 
-COUNT_OPS
-};
+#include "operations_imp.h"
 
-struct Cont{
-    Cont(Operations o,int val){
-        op=o;
-        arg=val;
+void basic_ops(int en,int arg, std::stack<int>& pr_stack){
+    assert(static_cast<int>(BasicOps::COUNT_OPS1)==5);
+    switch (static_cast<BasicOps>(en)){
+        case BasicOps::OP_PUSH:{
+            pr_stack.push(arg);
+            break;
+        }
+        case BasicOps::OP_DUMP:{
+            int a = pr_stack.top();
+            pr_stack.pop();
+            std::cout<<a<<std::endl;
+            break;
+        }
+        case BasicOps::OP_PLUS: {
+            int a = pr_stack.top();
+            pr_stack.pop();
+            int b = pr_stack.top();
+            pr_stack.pop();
+            pr_stack.push(b+a);
+            break;
+        }
+        case BasicOps::OP_MINUS: {
+            int a = pr_stack.top();
+            pr_stack.pop();
+            int b = pr_stack.top();
+            pr_stack.pop();
+            pr_stack.push(b-a);
+            break;
+        }
+
+        case BasicOps::OP_DUP: {
+            int a = pr_stack.top();
+            pr_stack.push(a);
+            break;
+        }
+
+        default : std::cerr<<"NOT IMPLEMENTED"<<std::endl;
     }
-    explicit Cont(Operations o){
-        op=o;
+}
+
+void boolean_ops(int en, std::stack<int>& pr_stack){
+    assert(static_cast<int>(BooleanOps::COUNT_OPS2)==6);
+    switch (static_cast<BooleanOps>(en)){
+        case BooleanOps::OP_GREATER:{
+            int a = pr_stack.top();
+            pr_stack.pop();
+            int b = pr_stack.top();
+            pr_stack.pop();
+            pr_stack.push(b>a);
+            break;
+        }
+        case BooleanOps::OP_GREATEQ:{
+            int a = pr_stack.top();
+            pr_stack.pop();
+            int b = pr_stack.top();
+            pr_stack.pop();
+            pr_stack.push(b>=a);
+            break;
+        }
+        case BooleanOps::OP_LESS:{
+            int a = pr_stack.top();
+            pr_stack.pop();
+            int b = pr_stack.top();
+            pr_stack.pop();
+            pr_stack.push(b<a);
+            break;
+        }
+        case BooleanOps::OP_LESSEQ:{
+            int a = pr_stack.top();
+            pr_stack.pop();
+            int b = pr_stack.top();
+            pr_stack.pop();
+            pr_stack.push(b<=a);
+            break;
+        }
+        case BooleanOps::OP_EQ:{
+            int a = pr_stack.top();
+            pr_stack.pop();
+            int b = pr_stack.top();
+            pr_stack.pop();
+            pr_stack.push(b==a);
+            break;
+        }
+        case BooleanOps::OP_NEQ:{
+            int a = pr_stack.top();
+            pr_stack.pop();
+            int b = pr_stack.top();
+            pr_stack.pop();
+            pr_stack.push(b!=a);
+            break;
+        }
+        default : std::cerr<<"NOT IMPLEMENTED"<<std::endl;
     }
-    Operations op;
-    int arg;
-};
-
-Cont push(int val){
-    return {OP_PUSH,val};
-}
-Cont dump(){
-    return {OP_DUMP,0};
-}
-Cont plus(){
-    return {OP_PLUS,0};
-}
-Cont minus(){
-    return {OP_MINUS,0};
-}
-Cont dup(){
-    return {OP_DUP,0};
 }
 
-Cont greater(){
-    return {OP_GREATER,0};
+void keyword_ops(int c, std::stack<int> pr_stack){
+    assert(static_cast<int>(ifnloops::COUNT_OPS3)==4);
 }
-Cont greateq(){
-    return {OP_GREATEQ,0};
+
+void global_assert(){
+    assert(static_cast<int>(BasicOps::COUNT_OPS1)==5);
+    assert(static_cast<int>(BooleanOps::COUNT_OPS2)==6);
+    assert(static_cast<int>(ifnloops::COUNT_OPS3)==7);
 }
-Cont less(){
-    return {OP_LESS,0};
-}
-Cont lesseq(){
-    return {OP_LESSEQ,0};
-}
-Cont eq(){
-    return {OP_EQ,0};
-}
-Cont neq(){
-    return {OP_NEQ,0};
+
+void do_operation(const Cont& c, std::stack<int>& pr_stack){
+    switch (c.op) {
+        case op_types::BASIC_OPS: basic_ops(c.enumber,c.arg,pr_stack); break;
+        case op_types::BOOLEAN_OPS: boolean_ops(c.enumber,pr_stack); break;
+        default: std::cerr<<"NOT IMPLEMENTED"<<std::endl;
+    }
 }

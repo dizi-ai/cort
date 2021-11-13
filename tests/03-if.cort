@@ -1,0 +1,14 @@
+88 14 if > then
+34 35 + 68 if < then
+69 dump
+else
+21 22 + 43 if = then
+33 dump
+else
+78 dump
+endif
+endif
+else
+512 92 - dump
+endif
+228 dump
