@@ -21,10 +21,8 @@ std::vector<std::string> line_to_cmd(std::string line){
     return commands;
 }
 
-
-std::vector<std::string> read_file (std::string file_path){
+std::vector<std::string> lbl(std::string full_path){
     std::vector<std::string> commands;
-    std::string full_path = get_path()+file_path;
     std::fstream file(full_path);
     if (file.is_open()){
         for( std::string line; std::getline( file, line); ){
@@ -36,4 +34,10 @@ std::vector<std::string> read_file (std::string file_path){
         std::cerr<<"No such file"<<std::endl;
     }
     return commands;
+}
+
+std::vector<std::string> read_file (std::string file_path){
+    std::vector<std::string> commands;
+    std::string full_path = get_path()+file_path;
+    return lbl(full_path);
 }
